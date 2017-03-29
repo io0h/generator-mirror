@@ -1,5 +1,5 @@
 # generator-mirror [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
-> react+mobx
+> [create-react-app](https://github.com/facebookincubator/create-react-app) + [ant-design](https://github.com/ant-design/ant-design) + [mobx](https://github.com/mobxjs/mobx) 
 
 ## Installation
 
