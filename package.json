@@ -1,6 +1,6 @@
 {
   "name": "generator-mirror",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "create-react-app + ant-design + mobx",
   "homepage": "https://github.com/io0h/generator-mirror",
   "author": {

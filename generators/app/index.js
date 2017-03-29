@@ -1,7 +1,5 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
-const yosay = require('yosay');
 
 module.exports = class extends Generator {
  constructor(args, opts) {
@@ -9,21 +7,38 @@ module.exports = class extends Generator {
     super(args, opts);
 
     // Next, add your custom code
+    this.appName = ''
   }
 
-  start() {
-      this.log('start mirror');
+  initializing() {
+    this.log('start mirror');
+  }
+
+	prompting() {
+    return this.prompt([{
+      type    : 'input',
+      name    : 'name',
+      message : 'Your project name',
+      default : this.appname // Default to current folder name
+    }]).then((answers) => {
+      this.log('app name: ', answers.name);
+      this.appName = answers.name;
+      this.fs.copy(
+        this.templatePath('my-app'),
+        this.destinationPath(),
+        { title: 'copy file' }
+      );
+    });
   }
 
  	writing() {
-    this.fs.copyTpl(
-      this.templatePath('my-app'),
-      this.destinationPath(),
-      { title: 'Templating with Yeoman' }
-    );
+    var currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+    currentPkg.name = this.appName ? this.appName : currentPkg.name;
+    this.fs.writeJSON(this.destinationPath('package.json'), currentPkg);
   }
 
-  installDependencies (){
+  install (){
+    this.spawnCommand('yarn', ['install']);
     this.yarnInstall([
       'antd',
       'lodash',
