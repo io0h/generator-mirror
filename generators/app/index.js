@@ -38,7 +38,7 @@ module.exports = class extends Generator {
       'file-saver',
       'echarts-for-react'
     ]);
-    this.yarnInstall(['babel-plugin-transform-class-properties','babel-plugin-transform-decorators-legacy'],{ 'dev': true });
+    this.yarnInstall(['babel-plugin-transform-class-properties','babel-plugin-transform-decorators-legacy','babel-plugin-import'],{ 'dev': true });
   }
 
   end() {
