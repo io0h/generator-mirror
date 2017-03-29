@@ -23,6 +23,24 @@ module.exports = class extends Generator {
     );
   }
 
+  installDependencies (){
+    this.yarnInstall([
+      'antd',
+      'lodash',
+      'axios',
+      'classnames',
+      'qs',
+      'moment',
+      'mobx',
+      'mobx-react',
+      'react-router@3.0.0',
+      'react-ga',
+      'file-saver',
+      'echarts-for-react'
+    ]);
+    this.yarnInstall(['babel-plugin-transform-class-properties','babel-plugin-transform-decorators-legacy'],{ 'dev': true });
+  }
+
   end() {
       this.log('mirror finish');
   }

@@ -1,3 +1,5 @@
+'use strict';
+
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -79,7 +81,7 @@ module.exports = {
       'react-native': 'react-native-web'
     }
   },
-
+  
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.
@@ -102,8 +104,13 @@ module.exports = {
       {
         exclude: [
           /\.html$/,
-          /\.(js|jsx)$/,
-          /\.less$/,
+          // We have to write /\.(js|jsx)(\?.*)?$/ rather than just /\.(js|jsx)$/
+          // because you might change the hot reloading server from the custom one
+          // to Webpack's built-in webpack-dev-server/client?/, which would not
+          // get properly excluded by /\.(js|jsx)$/ because of the query string.
+          // Webpack 2 fixes this, but for now we include this hack.
+          // https://github.com/facebookincubator/create-react-app/issues/1713
+          /\.(js|jsx)(\?.*)?$/,
           /\.css$/,
           /\.json$/,
           /\.svg$/
@@ -120,13 +127,7 @@ module.exports = {
         include: paths.appSrc,
         loader: 'babel',
         query: {
-          plugins: [
-            //['import', [{ libraryName: "antd", style: 'css' }]],
-            ['import', [{ libraryName: "antd", style: true }]],
-            "transform-decorators-legacy",
-            "transform-class-properties"
-
-          ],
+          
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
@@ -155,17 +156,12 @@ module.exports = {
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
         }
-      },
-      {
-        test: /\.less$/,
-        loader: 'style!css!postcss!less?{modifyVars:{}}'
-      },
-
+      }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
   },
-
+  
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
