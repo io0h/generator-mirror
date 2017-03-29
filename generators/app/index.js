@@ -11,8 +11,20 @@ module.exports = class extends Generator {
     // Next, add your custom code
   }
 
-  method1() {
-      this.log('method 1 just ran');
+  start() {
+      this.log('start mirror');
+  }
+
+ 	writing() {
+    this.fs.copyTpl(
+      this.templatePath('my-app'),
+      this.destinationPath(),
+      { title: 'Templating with Yeoman' }
+    );
+  }
+
+  end() {
+      this.log('mirror finish');
   }
 
 };
